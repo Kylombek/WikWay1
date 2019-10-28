@@ -1,4 +1,4 @@
-package com.example.wikway1.ui.search;
+package com.example.wikway1.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.wikway1.JobAd;
 import com.example.wikway1.R;
+import com.example.wikway1.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -20,9 +21,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyViewHolder> {
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<JobAd> jobs;
+    public ArrayList<JobAd> jobs;
 
-    VacancyAdapter(Context context) {
+    private OnItemClickListener onItemClickListener;
+    public VacancyAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -49,6 +51,10 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     class VacancyViewHolder extends RecyclerView.ViewHolder{
         CircleImageView imageView;
         TextView jobTitleTextView;
@@ -56,14 +62,29 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
             super(itemView);
             imageView = itemView.findViewById(R.id.companyLogoInList);
             jobTitleTextView = itemView.findViewById(R.id.jobNameTextView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onItemClickListener.onItemLongCLick(getAdapterPosition());
+                    return true;
+                }
+            });
         }
 
         void setData(JobAd job) {
             Glide.with(context)
                     .asBitmap()
-                    .load(job.imageLink)
+                    .load(job.getImageLink())
                     .into(imageView);
-            jobTitleTextView.setText(job.title);
+            jobTitleTextView.setText(job.getTitle());
         }
     }
 }

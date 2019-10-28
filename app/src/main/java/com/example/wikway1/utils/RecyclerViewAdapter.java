@@ -45,17 +45,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Glide.with(mContext)
-                .asBitmap().load(jobAds.get(position).imageLink)
+                .asBitmap().load(jobAds.get(position).getImageLink())
                 .into(holder.logoImage);
-        holder.textView.setText(jobAds.get(position).title);
+        holder.textView.setText(jobAds.get(position).getTitle());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,jobAds.get(position).title,Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,jobAds.get(position).getTitle(),Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, GalleryActivity.class);
-                intent.putExtra("image_url", jobAds.get(position).imageLink);
-                intent.putExtra("image_name", jobAds.get(position).title);
+                intent.putExtra("image_url", jobAds.get(position).getImageLink());
+                intent.putExtra("image_name", jobAds.get(position).getTitle());
                 mContext.startActivity(intent);
             }
         });

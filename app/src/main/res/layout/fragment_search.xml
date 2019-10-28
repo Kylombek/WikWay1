@@ -26,8 +26,12 @@
         android:id="@+id/search_button"
         />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#505050"
+        />
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="8dp"
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

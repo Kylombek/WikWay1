@@ -17,8 +17,10 @@ public class App extends Application {
     public static ArrayList<JobAd> jobAds;
     public static InitImageBitmaps initialization;
 
-
+    private static boolean loading = false;
     public static OnDataReadyListener onDataReadyListener;
+
+    public static ArrayList<String> listOfBundesland = new ArrayList<>();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,7 +38,10 @@ public class App extends Application {
             if (initialization == null) {
                 initialization = new InitImageBitmaps();
             }
-            initialization.execute();
+            if (!loading) {
+                loading = true;
+                initialization.execute();
+            }
 
         } else {
             onDataReadyListener.setData(jobAds);
@@ -57,17 +62,16 @@ public class App extends Application {
                         JSONObject c = companies.getJSONObject(i);
                         String jobName = c.getString("Bezeichnung der Stelle");
                         String logo = c.getString("Logo");
-                        jobAds.add(new JobAd(jobName,logo));
-//                            if(i==3){
-//                                fav.add(new JobAd(jobName,logo));
-//                            }
+                        String bundesland = c.getString("Bundesland");
+                        if (bundesland != null && !listOfBundesland.contains(bundesland)) {
+                            listOfBundesland.add(bundesland);
+                        }
+                        jobAds.add(new JobAd(jobName,logo, bundesland));
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                } finally {
-
                 }
             }
 
@@ -77,6 +81,7 @@ public class App extends Application {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (onDataReadyListener != null) onDataReadyListener.setData(jobAds);
+            loading = false;
         }
     }
 

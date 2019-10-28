@@ -20,16 +20,8 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
             bottomNav.setOnNavigationItemSelectedListener(navListener);
+            bottomNav.setSelectedItemId(R.id.navigation_home);
 
-
-
-
-
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-        /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_search, R.id.navigation_home, R.id.navigation_saved)
-                .build();*/
         }
 
         private BottomNavigationView.OnNavigationItemSelectedListener navListener =
