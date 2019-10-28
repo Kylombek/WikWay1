@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         Fragment selectedFragment = null;
                         switch (menuItem.getItemId()){
                             case R.id.navigation_home :
-                                selectedFragment = new HomeFragment();
+                                selectedFragment = HomeFragment.getInstance();
                                 break;
                             case R.id.navigation_saved :
                                 selectedFragment = new SavedFragment();

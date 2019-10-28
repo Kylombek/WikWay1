@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.wikway1.JobAd;
 import com.example.wikway1.R;
 import com.example.wikway1.ui.home.GalleryActivity;
 
@@ -25,13 +26,11 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>  {
     public static final String TAG= "RecyclerViewAdapter";
 
-    private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mJobNamesText = new ArrayList<>();
+    private ArrayList<JobAd> jobAds;
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mImages, ArrayList<String> mJobNamesText, Context mContext) {
-        this.mImages = mImages;
-        this.mJobNamesText = mJobNamesText;
+    public RecyclerViewAdapter(ArrayList<JobAd> jobAds, Context mContext) {
+        this.jobAds = jobAds;
         this.mContext = mContext;
     }
 
@@ -46,17 +45,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Glide.with(mContext)
-                .asBitmap().load(mImages.get(position))
+                .asBitmap().load(jobAds.get(position).imageLink)
                 .into(holder.logoImage);
-        holder.textView.setText(mJobNamesText.get(position));
+        holder.textView.setText(jobAds.get(position).title);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,mJobNamesText.get(position),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,jobAds.get(position).title,Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, GalleryActivity.class);
-                intent.putExtra("image_url", mImages.get(position));
-                intent.putExtra("image_name", mJobNamesText.get(position));
+                intent.putExtra("image_url", jobAds.get(position).imageLink);
+                intent.putExtra("image_name", jobAds.get(position).title);
                 mContext.startActivity(intent);
             }
         });
@@ -64,7 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mJobNamesText.size();
+        return jobAds.size();
     }
 
 
@@ -77,8 +76,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-
             logoImage = itemView.findViewById(R.id.companyLogoInList);
             textView = itemView.findViewById(R.id.jobNameTextView);
             relativeLayout = itemView.findViewById(R.id.parent_layout);

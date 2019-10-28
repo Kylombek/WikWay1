@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wikway1.JobAd;
 import com.example.wikway1.R;
 import com.example.wikway1.utils.HttpHandler;
 import com.example.wikway1.utils.RecyclerViewAdapter;
@@ -25,18 +26,24 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "JobListView";
-    private static final String API_WIKWAY = "https://www.wikway.de/companies/offers-json?password=ain1018";
+    public static final String TAG = "JobListView";
+    public static final String API_WIKWAY = "https://www.wikway.de/companies/offers-json?password=ain1018";
+    public static HomeFragment instance;
     //vars
-    private ArrayList<String> mNames;
-    private ArrayList<String> mImageUrls;
-    private InitImageBitmaps initialization;
+    public static ArrayList<JobAd> jobAds;
+    public static ArrayList<JobAd> fav;
+    public static InitImageBitmaps initialization;
 
+    public static HomeFragment getInstance(){
+        if(instance==null)
+            instance = new HomeFragment();
+        return instance;
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: started.");
-        mNames = new ArrayList<>();
-        mImageUrls = new ArrayList<>();
+        jobAds = new ArrayList<>();
+        fav = new ArrayList<>();
         if (initialization == null){
             initialization = new InitImageBitmaps();
              }
@@ -53,16 +60,18 @@ public class HomeFragment extends Fragment {
 
                 String jsonStr = sh.makeServiceCall(API_WIKWAY);
                 if (jsonStr != null) {
-                    try {
-                        JSONArray companies = new JSONArray(jsonStr);
 
+                        try {
+                            JSONArray companies = new JSONArray(jsonStr);
                         for (int i = 0; i < companies.length(); i++) {
                             JSONObject c = companies.getJSONObject(i);
                             String jobName = c.getString("Bezeichnung der Stelle");
                             String logo = c.getString("Logo");
                             Log.d(TAG, "AAAAAAAAAAAAAAAAAAAAAAAAAAA" + jobName);
-                            mNames.add(jobName);
-                            mImageUrls.add(logo);
+                            jobAds.add(new JobAd(jobName,logo));
+//                            if(i==3){
+//                                fav.add(new JobAd(jobName,logo));
+//                            }
                         }
 
                     } catch (JSONException e) {
@@ -81,7 +90,7 @@ public class HomeFragment extends Fragment {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerv_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mImageUrls, mNames, getContext());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(jobAds, getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
