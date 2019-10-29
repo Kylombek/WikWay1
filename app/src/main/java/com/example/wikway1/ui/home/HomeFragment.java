@@ -1,5 +1,6 @@
 package com.example.wikway1.ui.home;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import com.example.wikway1.JobAd;
 import com.example.wikway1.R;
 import com.example.wikway1.ui.VacancyAdapter;
 import com.example.wikway1.utils.HttpHandler;
+import com.example.wikway1.utils.OnItemClickListener;
 import com.example.wikway1.utils.RecyclerViewAdapter;
 
 import org.json.JSONArray;
@@ -58,6 +61,20 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerv_view);
         adapter = new VacancyAdapter(getContext());
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getContext(), GalleryActivity.class);
+                intent.putExtra("image_url", adapter.jobs.get(pos).getImageLink());
+                intent.putExtra("image_name", adapter.jobs.get(pos).getTitle());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongCLick(int pos) {
+                Toast.makeText(getContext(), "on long click: " + adapter.jobs.get(pos).getTitle(), Toast.LENGTH_LONG).show();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
