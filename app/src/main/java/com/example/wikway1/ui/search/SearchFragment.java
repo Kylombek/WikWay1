@@ -71,6 +71,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private void initRV() {

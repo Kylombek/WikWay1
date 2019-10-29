@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.example.wikway1.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyViewHolder> {
     private Context context;
@@ -56,12 +56,18 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
     }
 
     class VacancyViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView imageView;
+        ImageView imageView;
         TextView jobTitleTextView;
+        TextView ortTextView;
+        TextView deadlineTextView;
+        TextView artDerStelle;
         VacancyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.companyLogoInList);
             jobTitleTextView = itemView.findViewById(R.id.jobNameTextView);
+            ortTextView = itemView.findViewById(R.id.ortTextView);
+            deadlineTextView = itemView.findViewById(R.id.deadlineTextView);
+            artDerStelle = itemView.findViewById(R.id.artDerStelleTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +91,9 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
                     .load(job.getImageLink())
                     .into(imageView);
             jobTitleTextView.setText(job.getTitle());
+            ortTextView.setText(job.getOrt());
+            deadlineTextView.setText(job.getDeadline());
+            artDerStelle.setText(job.getArtDerStelle());
         }
     }
 }

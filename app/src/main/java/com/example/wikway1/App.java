@@ -58,15 +58,32 @@ public class App extends Application {
 
                 try {
                     JSONArray companies = new JSONArray(jsonStr);
+                    String deadline;
                     for (int i = 0; i < companies.length(); i++) {
                         JSONObject c = companies.getJSONObject(i);
                         String jobName = c.getString("Bezeichnung der Stelle");
                         String logo = c.getString("Logo");
                         String bundesland = c.getString("Bundesland");
+                        String ort = c.getString("Ort");
+                        String anschreiben = c.getString("Anschreiben zur Stelle");
+                        String abteilung = c.getString("Abteilung");
+                        String qualifizirung = c.getString("Fähigkeiten und Qualifikationen");
+                        String srasse = c.getString("Straße");
+                        String anforderung = c.getString("Einladung zur Kontaktaufnahme");
+                        String artDerStelle = c.getString("Art der Stelle");
+                        String email = c.getString("E-Mail");
+//                        String aufgabenGebiet = c.getString("AufgabenGebiet");
+                        if(c.getString("Stelle aktiv bis (Publikationsende)").isEmpty()){ deadline = "--.--.----";}
+                        else{
+                            deadline = c.getString("Stelle aktiv bis (Publikationsende)");}
+
                         if (bundesland != null && !listOfBundesland.contains(bundesland)) {
                             listOfBundesland.add(bundesland);
                         }
-                        jobAds.add(new JobAd(jobName,logo, bundesland));
+                        jobAds.add(new JobAd(jobName,logo,
+                                bundesland,ort,anschreiben,
+                                abteilung,qualifizirung,srasse,
+                                anforderung,deadline,artDerStelle,email));
                     }
 
 

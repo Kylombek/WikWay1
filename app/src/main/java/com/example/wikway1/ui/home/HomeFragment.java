@@ -67,6 +67,13 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), GalleryActivity.class);
                 intent.putExtra("image_url", adapter.jobs.get(pos).getImageLink());
                 intent.putExtra("image_name", adapter.jobs.get(pos).getTitle());
+                intent.putExtra("image_artDerStelle", adapter.jobs.get(pos).getArtDerStelle());
+                intent.putExtra("image_anschreiben", adapter.jobs.get(pos).getAnschreiben());
+                intent.putExtra("image_abteilung", adapter.jobs.get(pos).getAbteilung());
+                intent.putExtra("image_qualifizirung", adapter.jobs.get(pos).getQualifizirung());
+                intent.putExtra("image_anforderung", adapter.jobs.get(pos).getAnforderung());
+                intent.putExtra("image_strasse", adapter.jobs.get(pos).getSrasse());
+                intent.putExtra("image_email", adapter.jobs.get(pos).getEmail());
                 startActivity(intent);
             }
 
